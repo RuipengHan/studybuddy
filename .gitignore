@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+
+# Environment variables
+.env
+
+# Build outputs
+client/build/
+client/dist/
+
+# Logs
+logs
+*.log
+
+# Operating System generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+*.swp
+*.swo
+.vscode/
+
+# Other unnecessary files
+npm-debug.log
+yarn-error.log
