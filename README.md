@@ -50,7 +50,19 @@ StudyBuddy stands out from similar applications like Notion, Apple's Notes App, 
 
 ## Getting Started
 
-TBD
+To run the server:
+
+    ```bash
+    cd server
+    node server.js
+    ```
+
+To run the frontend react (in a separate terminal):
+
+    ```bash
+    cd client
+    npm start
+    ```
 
 ## Contributing
 
