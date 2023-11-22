@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
         required: true
     }
     // Add any other fields you might need
-});
+}, {timestamps: true});
 
 // Pre-save hook to hash the password
 UserSchema.pre('save', function(next) {

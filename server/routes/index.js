@@ -6,4 +6,6 @@ module.exports = function (app, router) {
     // Authentication Routes
     const authRouter = require('./auth.js')(router);
     app.use('/api/auth', authRouter);
+    // app.use('/api/protected-route', verifyToken, protectedRouteHandler);
+
 };

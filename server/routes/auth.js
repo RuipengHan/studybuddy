@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+var secrets = require('../config/config');
 
 module.exports = function(router) {
 
@@ -22,9 +24,16 @@ module.exports = function(router) {
             // Create and save the new user
             const newUser = new User({ firstName, lastName, username, email, password });
             await newUser.save();
-    
+
+            // After the user is successfully created
+            const token = jwt.sign(
+                { id: newUser._id },
+                secrets.jwt_secrets,
+                { expiresIn: '1h' } // Token expiration time
+            );
+            
             // Respond with success message (or token if implementing JWT)
-            res.status(201).json({ message: 'User registered successfully', user: newUser });
+            res.status(201).json({ message: 'User registered successfully', token });
     
         } catch (error) {
             console.error(error);
@@ -34,7 +43,37 @@ module.exports = function(router) {
 
     // User login
     router.post('/login', async (req, res) => {
-        // Implement user login logic
+        try {
+            // Destructure username and password from the request body
+            const { username, password } = req.body;
+            if (!username || !password) {
+                return res.status(400).json({ message: 'Please enter all required fields' });
+            }
+    
+            // Find user by username
+            const user = await User.findOne({ username });
+            if (!user) {
+                return res.status(401).json({ message: 'Invalid credentials' });
+            }
+    
+            // Compare the provided password with the stored hashed password
+            user.comparePassword(password, (err, isMatch) => {
+                if (err) throw err;
+                if (!isMatch) {
+                    return res.status(401).json({ message: 'Invalid credentials' });
+                }
+                    // If password matches
+                    const token = jwt.sign(
+                        { id: user._id },
+                        secrets.jwt_secrets,
+                        { expiresIn: '1h' } // Token expiration time
+                    );
+                    res.status(200).json({ message: 'User logged in successfully', token });
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Server error' });
+        }
     });
 
     return router;

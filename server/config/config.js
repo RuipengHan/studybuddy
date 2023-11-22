@@ -11,7 +11,7 @@ const config = {
         uri: process.env.MONGODB_URI || 'undefined_connection'
     },
 
-    // Add other configurations as needed
+    jwt_secrets: process.env.JWT_SECRET
 };
 
 module.exports = config;
