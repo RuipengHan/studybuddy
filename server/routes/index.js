@@ -1,0 +1,9 @@
+module.exports = function (app, router) {
+    // app.use('/api', require('./home.js')(router));
+    // app.use('/api', require('./users.js')(router)); // Users API
+    // app.use('/api', require('./tasks.js')(router)); // Task API
+
+    // Authentication Routes
+    const authRouter = require('./auth.js')(router);
+    app.use('/api/auth', authRouter);
+};
