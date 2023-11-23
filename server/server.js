@@ -5,8 +5,13 @@ var express = require('express'),
     secrets = require('./config/config'),
     bodyParser = require('body-parser');
 
+const cors = require('cors');
+
+
 // Create our Express application
 var app = express();
+// app.use(cors());
+app.use(cors({ origin: true }));
 
 // Use environment defined port or 4000
 var port = secrets.server.port || 4000;
@@ -35,5 +40,6 @@ app.use(bodyParser.json());
 require('./routes')(app, router);
 
 // Start the server
-app.listen(port);
-console.log('Server running on port ' + port);
+app.listen(port, () => {
+    console.log('Server running on port ' + port);
+});

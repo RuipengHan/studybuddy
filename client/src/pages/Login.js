@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Implement login logic
-        // This usually involves sending a request to your backend
-        // and handling the response (e.g., storing the JWT)
+
+        try {
+            const response = await fetch('http://localhost:4000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.token); // Save the token
+                navigate('/'); // Redirect to the home page
+            } else {
+                console.error('Login failed:', data.message); // Handle errors, e.g., show an alert to the user
+            }
+        } catch (error) {
+            console.error('There was a problem with the login request:', error);
+        }
     };
 
     return (

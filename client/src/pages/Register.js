@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    // Add other state variables as needed
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Implement registration logic
+        // On successful registration:
+        localStorage.setItem('token', 'your_token_here'); // Set the token in local storage
+        navigate('/'); // Redirect to the home page
     };
 
     return (
