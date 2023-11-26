@@ -5,14 +5,32 @@ const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('User');
     useEffect(() => {
-        // Check if user is logged in
-        // This might involve checking for a valid token in local storage or context
-        const token = localStorage.getItem('token');
-        const storedFirstName = localStorage.getItem('firstName');
-        if (token) {
-            setIsLoggedIn(true);
-            setFirstName(storedFirstName);
-        }
+        const checkToken = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': token
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        setIsLoggedIn(true);
+                        setFirstName(data.user.firstName); // Or however you're storing the first name
+                    } else {
+                        localStorage.removeItem('token'); // Token is invalid or expired
+                        localStorage.removeItem('firstName');
+                    }
+                } catch (error) {
+                    console.error('Error validating token:', error);
+                }
+            }
+        };
+
+        checkToken();
     }, []);
 
     return (

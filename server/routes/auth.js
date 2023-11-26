@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 var secrets = require('../config/config');
+const verifyToken = require('../middleware/verifyToken');
 
 module.exports = function(router) {
 
@@ -74,6 +75,12 @@ module.exports = function(router) {
             console.error(error);
             res.status(500).json({ message: 'Server error' });
         }
+    });
+
+    // An endpoint used to verify a user's token
+    router.get('/validateToken', verifyToken, (req, res) => {
+        // If the token is valid, the verifyToken middleware will pass
+        res.json({ valid: true, user: req.user });
     });
 
     return router;
