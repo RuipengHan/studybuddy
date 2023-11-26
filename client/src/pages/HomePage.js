@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const [firstName, setFirstName] = useState('User');
     useEffect(() => {
         // Check if user is logged in
         // This might involve checking for a valid token in local storage or context
         const token = localStorage.getItem('token');
+        const storedFirstName = localStorage.getItem('firstName');
         if (token) {
             setIsLoggedIn(true);
+            setFirstName(storedFirstName);
         }
     }, []);
 
@@ -23,7 +25,7 @@ const HomePage = () => {
                     </div>
                     <div className="text-center">
                         {isLoggedIn ? (
-                            <p className="mb-6">Welcome back, User!</p>
+                            <p className="mb-6">Welcome back, {firstName}!</p>
                         ) : (
                             <>
                                 <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium mb-3">Login</Link>

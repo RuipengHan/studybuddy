@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -19,9 +20,15 @@ const Login = () => {
             });
 
             const data = await response.json();
+            // console.log("returned data", data)
             if (response.ok) {
-                localStorage.setItem('token', data.token); // Save the token
-                navigate('/'); // Redirect to the home page
+                const { token } = data;
+                const decoded = jwtDecode(token);
+                const firstName = decoded.firstName;
+                localStorage.setItem('token', token);
+                // console.log("returned decoded data", decoded)
+                localStorage.setItem('firstName', firstName);
+                navigate('/');    
             } else {
                 console.error('Login failed:', data.message); // Handle errors, e.g., show an alert to the user
             }

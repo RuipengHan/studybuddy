@@ -27,7 +27,7 @@ module.exports = function(router) {
 
             // After the user is successfully created
             const token = jwt.sign(
-                { id: newUser._id },
+                { id: newUser._id, firstName: newUser.firstName },
                 secrets.jwt_secrets,
                 { expiresIn: '1h' } // Token expiration time
             );
@@ -64,7 +64,7 @@ module.exports = function(router) {
                 }
                     // If password matches
                     const token = jwt.sign(
-                        { id: user._id },
+                        { id: user._id, firstName: user.firstName },
                         secrets.jwt_secrets,
                         { expiresIn: '1h' } // Token expiration time
                     );
