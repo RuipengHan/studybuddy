@@ -81,7 +81,7 @@ const HomePage = () => {
                 ) : (
                     <div>
                         <h1 className="text-3xl font-bold mb-4">Welcome to StudyBuddy</h1>
-                        <p>Your personal study time organizer.</p>
+                        <p>Your personal study time organizer. Login to create a new planner or a note!</p>
                         {/* Public content */}
                     </div>
                 )}
