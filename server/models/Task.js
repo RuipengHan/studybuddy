@@ -19,9 +19,9 @@ const taskSchema = new mongoose.Schema({
         fileType: String,
         fileSize: String // Size in bytes
     }],
-    creationDate: {
+    dateCreated: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
     dueDate: {
         type: Date,
@@ -34,7 +34,7 @@ const taskSchema = new mongoose.Schema({
         fieldName: String,
         fieldValue: mongoose.Schema.Types.Mixed // Can be any type of data as per user's choice
     }]
-});
+}, {timestamps: true});
 
 const Task = mongoose.model('Task', taskSchema);
 

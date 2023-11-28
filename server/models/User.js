@@ -15,10 +15,6 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    phoneNumber: {
-        type: String,
-        required: false // Optional
-    },
     username: {
         type: String,
         unique: true,
@@ -28,10 +24,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-    // Add any other fields you might need
 }, {timestamps: true});
 
-// Pre-save hook to hash the password
 UserSchema.pre('save', function(next) {
     const user = this;
 
@@ -44,7 +38,6 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-// Method to compare password for login
 UserSchema.methods.comparePassword = function(candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
         if (err) return callback(err);

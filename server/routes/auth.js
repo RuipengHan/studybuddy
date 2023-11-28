@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 var secrets = require('../config/config');
 const verifyToken = require('../middleware/verifyToken');
 
-module.exports = function(router) {
+module.exports = function (router) {
 
     // User registration
     router.post('/register', async (req, res) => {
@@ -15,13 +15,13 @@ module.exports = function(router) {
             if (!firstName || !lastName || !username || !email || !password) {
                 return res.status(400).json({ message: 'Please enter all required fields' });
             }
-    
+
             // Check for existing user by username or email
             const existingUser = await User.findOne({ $or: [{ email }, { username }] });
             if (existingUser) {
                 return res.status(400).json({ message: 'Username or email already exists' });
             }
-    
+
             // Create and save the new user
             const newUser = new User({ firstName, lastName, username, email, password });
             await newUser.save();
@@ -32,10 +32,10 @@ module.exports = function(router) {
                 secrets.jwt_secrets,
                 { expiresIn: '1h' } // Token expiration time
             );
-            
+
             // Respond with success message (or token if implementing JWT)
             res.status(201).json({ message: 'User registered successfully', token });
-    
+
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal Server error' });
@@ -50,30 +50,30 @@ module.exports = function(router) {
             if (!username || !password) {
                 return res.status(400).json({ message: 'Please enter all required fields' });
             }
-    
+
             // Find user by username
             const user = await User.findOne({ username });
             if (!user) {
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
-    
+
             // Compare the provided password with the stored hashed password
             user.comparePassword(password, (err, isMatch) => {
                 if (err) throw err;
                 if (!isMatch) {
                     return res.status(401).json({ message: 'Invalid credentials' });
                 }
-                    // If password matches
-                    const token = jwt.sign(
-                        { id: user._id, firstName: user.firstName },
-                        secrets.jwt_secrets,
-                        { expiresIn: '1h' } // Token expiration time
-                    );
-                    res.status(200).json({ message: 'User logged in successfully', token });
+                // If password matches
+                const token = jwt.sign(
+                    { id: user._id, firstName: user.firstName },
+                    secrets.jwt_secrets,
+                    { expiresIn: '1h' } // Token expiration time
+                );
+                res.status(200).json({ message: 'User logged in successfully', token });
             });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Server error' });
+            res.status(500).json({ message: 'Internal Server error' });
         }
     });
 

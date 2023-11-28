@@ -8,4 +8,8 @@ module.exports = function (app, router) {
     app.use('/api/auth', authRouter);
     // app.use('/api/protected-route', verifyToken, protectedRouteHandler);
 
+    // Task Routes
+    const taskRouter = require('./task.js')(router);
+    app.use('/api/task', taskRouter);
+
 };
