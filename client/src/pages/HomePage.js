@@ -1,11 +1,18 @@
+// HomePage.js
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import NavigationBar from './NavigationBar';
 
 const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('User');
     const navigate = useNavigate();
+    const homeLinks = [
+        { title: "Home", href: "/" }
+        // other links for the homepage
+      ];
     
+
     useEffect(() => {
         const checkToken = async () => {
             const token = localStorage.getItem('token');
@@ -17,7 +24,7 @@ const HomePage = () => {
                             'Authorization': token
                         }
                     });
-                    
+
                     if (response.ok) {
                         const data = await response.json();
                         setIsLoggedIn(true);
@@ -41,36 +48,11 @@ const HomePage = () => {
         setIsLoggedIn(false);
         navigate('/login'); // Optionally redirect to the login page
     };
-    
+
     return (
         <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
-            <div className="w-1/5 bg-white p-5 shadow-lg">
-                <div className="flex flex-col items-center mb-10">
-                    <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-2xl text-gray-500 mb-3">
-                        {/* Placeholder for avatar */}
-                        <span>Avatar</span>
-                    </div>
-                    <div className="text-center">
-                        {isLoggedIn ? (
-                            <>
-                                <p className="mb-6">Welcome back, {firstName}!</p>
-                                <button 
-                                    onClick={handleLogout} 
-                                    className="text-blue-600 hover:text-blue-800 font-medium mb-3"
-                                >
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <div className="flex justify-center space-x-4">
-                            <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium">Login</Link>
-                            <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">Register</Link>
-                        </div>
-                        )}
-                    </div>
-                </div>
+                <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links = {homeLinks} />
                 {/* Add additional navigation items here */}
-            </div>
             <div className="w-4/5 p-12 text-white">
                 {isLoggedIn ? (
                     <div>
