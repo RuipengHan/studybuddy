@@ -65,7 +65,7 @@ module.exports = function(router) {
                 }
                     // If password matches
                     const token = jwt.sign(
-                        { id: user._id, firstName: user.firstName },
+                        { id: user._id, firstName: user.firstName , username: user.username},
                         secrets.jwt_secrets,
                         { expiresIn: '1h' } // Token expiration time
                     );
