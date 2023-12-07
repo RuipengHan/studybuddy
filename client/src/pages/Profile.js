@@ -58,7 +58,16 @@ const ProfilePage = () => {
 
     checkToken();
   }, []);
-
+  useEffect(() => {
+    // Navigate based on the login state
+    if (isLoggedIn) {
+      // If logged in, navigate to the profile page
+      navigate('/profile');
+    } else {
+      // If not logged in, navigate to the login page
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('firstName');
@@ -122,7 +131,7 @@ const ProfilePage = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <NavigationBar isLoggedIn={true} firstName={firstName} handleLogout={handleLogout} links={profileLinks} />
+      <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={profileLinks} />
       <div className="flex-1 p-8 overflow-y-scroll">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
