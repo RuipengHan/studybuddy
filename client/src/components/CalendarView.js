@@ -17,17 +17,16 @@ const CalendarView = ({ startDate, endDate }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/task/within_dates', {
-          params: { startDate, endDate },
+        const response = await axios.get('http://localhost:4000/api/task', {
           headers: {
             Authorization: `${localStorage.getItem('token')}`,
           },
         });
-        if (response.data.length === 0) {
+        if (response.data.tasks.length === 0) {
           setNoTasksMessage('No tasks found for the selected dates.');
         } else {
           setTasks(
-            response.data.map((task) => ({
+            response.data.tasks.map((task) => ({
               ...task,
               start: new Date(task.creationDate),
               end: new Date(task.creationDate),
@@ -40,7 +39,7 @@ const CalendarView = ({ startDate, endDate }) => {
         console.error('Error fetching tasks', error);
       }
     };
-
+  
     fetchTasks();
   }, [startDate, endDate]);
 

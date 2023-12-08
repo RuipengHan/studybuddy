@@ -18,7 +18,7 @@ const TableView = () => {
                 Authorization: `${localStorage.getItem('token')}`,
               },
             });
-        console.log("response", response)
+        // console.log("response", response)
         if (response.data.tasks.length === 0) {
           setNoTasksMessage('No tasks found.');
         } else {
