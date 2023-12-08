@@ -1,14 +1,17 @@
 // HomePage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../components/NavigationBar';
 
 const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('User');
     const navigate = useNavigate();
     const homeLinks = [
-        { title: "Home", href: "/" }
+        { title: "Home", href: "/" },
+        { title: "New Task", href: "/new_task" },
+        { title: "My Calendar", href: "/calendar" },
+        { title: "Profile", href: "/profile" },
         // other links for the homepage
       ];
     
