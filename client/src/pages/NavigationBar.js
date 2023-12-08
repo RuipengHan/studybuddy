@@ -3,10 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
+    const avatarLink = isLoggedIn ? '/profile' : '/login';
+
     return (
         <div className="w-1/5 bg-white p-5 shadow-lg">
             <div className="flex flex-col items-center mb-10">
-                <Link to="/profile">
+                <Link to={avatarLink}>
                     <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-2xl text-gray-500 mb-3">
                         <span>Avatar</span>
                     </div>

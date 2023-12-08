@@ -1,5 +1,5 @@
 // ProfilePage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
 
@@ -29,7 +29,6 @@ const ProfilePage = () => {
   // New sections
   const [languages, setLanguages] = useState('');
   const [interests, setInterests] = useState('');
-
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem('token');
@@ -55,19 +54,9 @@ const ProfilePage = () => {
         }
       }
     };
-
     checkToken();
   }, []);
-  useEffect(() => {
-    // Navigate based on the login state
-    if (isLoggedIn) {
-      // If logged in, navigate to the profile page
-      navigate('/profile');
-    } else {
-      // If not logged in, navigate to the login page
-      navigate('/login');
-    }
-  }, [isLoggedIn, navigate]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('firstName');
@@ -136,7 +125,9 @@ const ProfilePage = () => {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-xl text-gray-500">
+              <div
+                className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-xl text-gray-500"
+              >
                 <span>A</span>
               </div>
               <div>
