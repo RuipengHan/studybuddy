@@ -74,4 +74,6 @@ module.exports = function(router) {
             res.status(500).send({ message: 'Error updating task', error: error.message });
         }
     })
+
+    return router;
 };
