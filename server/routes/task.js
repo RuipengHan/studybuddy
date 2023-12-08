@@ -33,6 +33,7 @@ module.exports = function(router) {
                 };
             }
             const tasks = await Task.find(query);
+            
             res.status(200).send({ message: 'Tasks retrieved successfully', tasks: tasks });
         }
         catch(error){

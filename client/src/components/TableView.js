@@ -12,12 +12,17 @@ const TableView = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      try {
-        const response = await axios.get('http://localhost:4000/api/tasks'); // Adjust the API endpoint accordingly
-        if (response.data.length === 0) {
+        try {
+            const response = await axios.get('http://localhost:4000/api/task', {
+              headers: {
+                Authorization: `${localStorage.getItem('token')}`,
+              },
+            });
+        console.log("response", response)
+        if (response.data.tasks.length === 0) {
           setNoTasksMessage('No tasks found.');
         } else {
-          setTasks(response.data);
+          setTasks(response.data.tasks);
           setNoTasksMessage('');
         }
       } catch (error) {
