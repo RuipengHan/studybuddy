@@ -1,34 +1,40 @@
+// CalendarView.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import TableView from './TableView';
+import SwitchModeButton from './Switchbutton'; // Adjust the import based on the actual file name
 
 const localizer = momentLocalizer(moment);
 
 const CalendarView = ({ startDate, endDate }) => {
   const [tasks, setTasks] = useState([]);
   const [noTasksMessage, setNoTasksMessage] = useState('');
+  const [view, setView] = useState('calendar');
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get('http://localhost:4000/api/task/within_dates', {
           params: { startDate, endDate },
           headers: {
-            Authorization: `${localStorage.getItem('token')}`, // Assuming you store your token in localStorage
+            Authorization: `${localStorage.getItem('token')}`,
           },
         });
         if (response.data.length === 0) {
-            // Set a message if no tasks are found
-            setNoTasksMessage('No tasks found for the selected dates.');
+          setNoTasksMessage('No tasks found for the selected dates.');
         } else {
-            setTasks(response.data.map(task => ({
-                ...task,
-                start: new Date(task.creationDate),
-                end: new Date(task.creationDate),
-                title: task.title, // Assuming your task has a 'name' field
-              })));
-              setNoTasksMessage('');
+          setTasks(
+            response.data.map((task) => ({
+              ...task,
+              start: new Date(task.creationDate),
+              end: new Date(task.creationDate),
+              title: task.title,
+            }))
+          );
+          setNoTasksMessage('');
         }
       } catch (error) {
         console.error('Error fetching tasks', error);
@@ -38,16 +44,23 @@ const CalendarView = ({ startDate, endDate }) => {
     fetchTasks();
   }, [startDate, endDate]);
 
+  const handleViewChange = () => {
+    setView((prevView) => (prevView === 'calendar' ? 'table' : 'calendar'));
+  };
+
   return (
-    <div>
-        {noTasksMessage && <div className="alert alert-warning">{noTasksMessage}</div>}
-        <Calendar
-            localizer={localizer}
-            events={tasks}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-        />
+    <div className="calendar-view-container">
+      {noTasksMessage && <div className="alert alert-warning">{noTasksMessage}</div>}
+      <div className="view-switcher">
+        <SwitchModeButton onClick={handleViewChange} active={view === 'calendar'} />
+      </div>
+      <div className="content-container">
+        {view === 'calendar' ? (
+          <Calendar localizer={localizer} events={tasks} startAccessor="start" endAccessor="end" style={{ height: 500 }} />
+        ) : (
+          <TableView data={tasks} />
+        )}
+      </div>
     </div>
   );
 };
