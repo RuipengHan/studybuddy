@@ -2,10 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
-
+import CalendarView from '../components/CalendarView'; 
+import moment from 'moment';
 const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('User');
+    
+    const [currentMonth, setCurrentMonth] = useState({
+        startDate: moment().startOf('month').format('YYYY-MM-DD'),
+        endDate: moment().endOf('month').format('YYYY-MM-DD')
+    });
     const navigate = useNavigate();
     const homeLinks = [
         { title: "Home", href: "/" },
@@ -62,6 +68,7 @@ const HomePage = () => {
                         <h1 className="text-3xl font-bold mb-4">Welcome to your Dashboard</h1>
                         <p>This is a private area for logged-in users.</p>
                         {/* Display user-specific content here */}
+                        <CalendarView startDate={currentMonth.startDate} endDate={currentMonth.endDate} />
                     </div>
                 ) : (
                     <div>

@@ -40,6 +40,34 @@ module.exports = function(router) {
             res.status(500).send({ message: 'Error retrieving tasks', error: error.message });
         }
     })
+    
+    // get a list of tasks within a start and end date.
+    router.get('/within_dates', verifyToken, async (req, res) => {
+        try {
+            // Retrieve dates from query parameters
+            const { startDate, endDate } = req.query;
+    
+            // Validate the dates
+            if (!startDate || !endDate) {
+                return res.status(400).send({ message: 'Both startDate and endDate are required.' });
+            }
+    
+            // Convert dates to appropriate format if necessary
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+    
+            // Fetch tasks within the date range
+            const tasks = await Task.find({
+                creationDate: { $gte: start, $lte: end },
+                username: req.user.username // Assuming tasks are user-specific
+            });
+    
+            res.status(200).send(tasks);
+        } catch (error) {
+            res.status(500).send({ message: 'Error fetching tasks' });
+        }
+    });
+
 
     // get a single task by id
     router.get('/:id', verifyToken, async (req, res) => {
@@ -75,32 +103,7 @@ module.exports = function(router) {
         }
     })
 
-    // get a single task by id
-    router.get('/within_dates', verifyToken, async (req, res) => {
-        try {
-            // Retrieve dates from query parameters
-            const { startDate, endDate } = req.query;
-    
-            // Validate the dates
-            if (!startDate || !endDate) {
-                return res.status(400).send({ message: 'Both startDate and endDate are required.' });
-            }
-    
-            // Convert dates to appropriate format if necessary
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-    
-            // Fetch tasks within the date range
-            const tasks = await Task.find({
-                creationDate: { $gte: start, $lte: end },
-                username: req.user.username // Assuming tasks are user-specific
-            });
-    
-            res.status(200).send(tasks);
-        } catch (error) {
-            res.status(500).send({ message: 'Error fetching tasks' });
-        }
-    });
+
     
     return router;
 };
