@@ -1,5 +1,5 @@
 // NewTask.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
@@ -59,7 +59,6 @@ const NewTask = ({ onTaskAdded }) => {
     setIsLoggedIn(false);
     navigate('/login'); // Optionally redirect to the login page
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setTask((prevTask) => ({ ...prevTask, [name]: value }));
@@ -92,6 +91,34 @@ const NewTask = ({ onTaskAdded }) => {
       console.error('Error adding task', error);
     }
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+            method: 'GET',
+            headers: {
+              'Authorization': token,
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setIsLoggedIn(true);
+            setFirstName(data.user.firstName); // Or however you're storing the first name
+          } else {
+            localStorage.removeItem('token'); // Token is invalid or expired
+            localStorage.removeItem('firstName');
+          }
+        } catch (error) {
+          console.error('Error validating token:', error);
+        }
+      }
+    };
+    checkToken();
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-100">
