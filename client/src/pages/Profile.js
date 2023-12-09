@@ -15,10 +15,48 @@ const ProfilePage = () => {
   const handleToggleEditMode = () => {
     setIsEditMode(!isEditMode);
   };
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     // Implement logic to save changes to the backend or perform any necessary actions
     setIsEditMode(false);
+  
+    try {
+      const yourAuthToken = localStorage.getItem('token'); // Replace with your actual authentication token
+  
+      const response = await fetch('http://localhost:4000/api/profile/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${yourAuthToken}`, // Add your authentication token if needed
+        },
+        body: JSON.stringify({
+          gender,
+          birthday,
+          location,
+          phoneNumber,
+          email,
+          aboutMe,
+          skills,
+          projects,
+          education,
+          workExperience,
+          courses,
+          languages,
+          interests
+          // Add more fields as needed
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Profile updated:', data);
+      } else {
+        console.error('Error updating profile:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
+  
 
   const [aboutMe, setAboutMe] = useState('');
   const [skills, setSkills] = useState('');
@@ -53,9 +91,9 @@ const ProfilePage = () => {
           if (response.ok) {
             const data = await response.json();
             setIsLoggedIn(true);
-            setFirstName(data.user.firstName); // Or however you're storing the first name
+            setFirstName(data.user.firstName);
           } else {
-            localStorage.removeItem('token'); // Token is invalid or expired
+            localStorage.removeItem('token');
             localStorage.removeItem('firstName');
           }
         } catch (error) {
@@ -63,41 +101,56 @@ const ProfilePage = () => {
         }
       }
     };
-    checkToken();
-  }, []);
-  // Assume a function to fetch user data from the server
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:4000/api/user/profile', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Authorization': localStorage.getItem('token'),
-  //       },
-  //     });
 
-  //     if (response.ok) {
-  //       const userData = await response.json();
-  //       // Set state variables with user data
-  //       setFullName(userData.fullName);
-  //       setGender(userData.gender);
-  //       setBirthday(userData.birthday);
-  //       setLocation(userData.location);
-  //       setPhoneNumber(userData.phoneNumber);
-  //       setEmail(userData.email);
-  //       setLanguages(userData.languages);
-  //       setInterests(userData.interests);
-  //     } else {
-  //       // Handle errors
-  //       console.error('Failed to fetch user profile:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching user profile:', error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   // Fetch user profile on component mount
-  //   fetchUserProfile();
-  // }, []);
+    checkToken(); // Call checkToken first
+
+    // Only call fetchUserProfile if the user is logged in
+    if (isLoggedIn) {
+      fetchUserProfile();
+    }
+  }, [isLoggedIn]);
+  useEffect(() => {
+    // Fetch user profile when the component mounts
+    fetchUserProfile();
+  }, []); // Empty dependency array to run it only once
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': localStorage.getItem('token'),
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        // Set state variables with user data
+        setFullName(userData.firstName + ' ' + userData.lastName);
+        setGender(userData.gender);
+        setBirthday(userData.birthday);
+        setLocation(userData.location);
+        setPhoneNumber(userData.phoneNumber);
+        setEmail(userData.email);
+        setLanguages(userData.languages);
+        setInterests(userData.interests);
+        setAboutMe(userData.aboutMe);
+        setEducation(userData.education);
+        setWorkExperience(userData.workExperience);
+        setCourses(userData.courses);
+        setSkills(userData.skills);
+        setProjects(userData.projects);
+
+        // Set other state variables as needed
+      } else {
+        // Handle errors
+        console.error('Failed to fetch user profile:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('firstName');

@@ -27,7 +27,18 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    gender: String,
+    birthday: String,
+    location: String,
+    languages: String,
+    aboutMe: String,
+    education: String,
+    workExperience: String,
+    courses: String,
+    skills: String,
+    projects: String,
+    interests: String
     // Add any other fields you might need
 }, {timestamps: true});
 
