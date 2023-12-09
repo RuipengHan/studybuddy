@@ -145,6 +145,7 @@ const NewTask = ({ onTaskAdded }) => {
                   value={task.username}
                   onChange={handleInputChange}
                   className="w-full border rounded-md py-2 px-3"
+                  style={{ color: 'black' }}
                 />
               </div>
               <div className="mb-4">
@@ -155,6 +156,7 @@ const NewTask = ({ onTaskAdded }) => {
                   value={task.title}
                   onChange={handleInputChange}
                   className="w-full border rounded-md py-2 px-3"
+                  style={{ color: 'black' }}
                 />
               </div>
               <div className="mb-4">
@@ -164,6 +166,7 @@ const NewTask = ({ onTaskAdded }) => {
                   value={task.description}
                   onChange={handleInputChange}
                   className="w-full border rounded-md py-2 px-3"
+                  style={{ color: 'black' }}
                 />
               </div>
               <div className="mb-4">
@@ -178,6 +181,7 @@ const NewTask = ({ onTaskAdded }) => {
                   value={task.dueDate}
                   onChange={handleInputChange}
                   className="w-full border rounded-md py-2 px-3"
+                  style={{ color: 'black' }}
                 />
               </div>
               <div className="mb-4">
