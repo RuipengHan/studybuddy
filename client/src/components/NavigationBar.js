@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 
-const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
+const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links, avatar }) => {
     const avatarLink = isLoggedIn ? '/profile' : '/login';
-    const location = useLocation(); // This hook gives you the current location object
-
+    const location = useLocation();
     const getLinkClassName = (path) => {
         const isActive = location.pathname === path;
         // Base classes for all links
@@ -26,12 +25,16 @@ const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
 
     return (
         <div className="w-1/5 bg-white p-5 shadow-lg">
-            <div className="flex flex-col items-center mb-10">
-                <Link to={avatarLink}>
-                    <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-2xl text-gray-500 mb-3">
-                        <span>Avatar</span>
-                    </div>
-                </Link>
+          <div className="flex flex-col items-center mb-10">
+            <Link to={avatarLink}>
+              <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-2xl text-gray-500 mb-3">
+                {avatar ? (
+                  <img src={avatar} alt="Avatar" className="w-full h-full rounded-full" />
+                ) : (
+                  <span>A</span>
+                )}
+              </div>
+            </Link>
                 <div className="text-center">
                     {isLoggedIn ? (
                         <>

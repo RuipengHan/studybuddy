@@ -226,7 +226,7 @@ const ProfilePage = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={profileLinks} />
+      <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={profileLinks} avatar={avatar} />
       <div className="flex-1 p-8 overflow-y-scroll">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
