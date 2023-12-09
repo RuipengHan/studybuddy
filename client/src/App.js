@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ProfilePage from './pages/Profile'; // Import the ProfilePage component
 import NewTask from './pages/Newtask';
+import TaskDetail from './pages/TaskDetailView';
 const App = () => {
   return (
     <Router>
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/new_task" element={<NewTask/>} />
         <Route path="/profile" element={<ProfilePage />} /> {/* Add a route for the profile page */}
+        <Route path="/task/:taskId" element={<TaskDetail />} />
       </Routes>
     </Router>
   );

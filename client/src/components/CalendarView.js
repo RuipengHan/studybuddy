@@ -1,5 +1,7 @@
 // CalendarView.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -13,6 +15,12 @@ const CalendarView = ({ startDate, endDate }) => {
   const [tasks, setTasks] = useState([]);
   const [noTasksMessage, setNoTasksMessage] = useState('');
   const [view, setView] = useState('calendar');
+  const navigate = useNavigate();
+  const handleSelectEvent = (event) => {
+    // Navigate to the task's detailed view page
+    console.log("Event:" + event.id);
+    navigate(`/task/${event.id}`);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -31,6 +39,7 @@ const CalendarView = ({ startDate, endDate }) => {
               start: new Date(task.creationDate),
               end: new Date(task.creationDate),
               title: task.title,
+              id: task._id
             }))
           );
           setNoTasksMessage('');
@@ -55,7 +64,7 @@ const CalendarView = ({ startDate, endDate }) => {
       </div>
       <div className="content-container">
         {view === 'calendar' ? (
-          <Calendar localizer={localizer} events={tasks} startAccessor="start" endAccessor="end" style={{ height: 500 }} />
+          <Calendar localizer={localizer} events={tasks} startAccessor="start" endAccessor="end" style={{ height: 500 }} onSelectEvent={handleSelectEvent}/>
         ) : (
           <TableView data={tasks} />
         )}
