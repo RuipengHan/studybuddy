@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useTable } from 'react-table';
 import '../style/react-table.css';
 import '../style/delete.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const TableView = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,7 +12,12 @@ const TableView = () => {
   const [view, setView] = useState('table');
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-
+  const navigate = useNavigate();
+  const handleRowClick = (row) => {
+    // Assuming each task has a unique '_id' field
+    navigate(`/task/${row.original._id}`);
+  };
+  
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -85,10 +92,10 @@ const TableView = () => {
     setView((prevView) => (prevView === 'table' ? 'calendar' : 'table'));
   };
 
-  const handleRowClick = (row) => {
-    setSelectedRow(row);
-    setShowDeleteConfirmation(true);
-  };
+  // const handleRowClick = (row) => {
+  //   setSelectedRow(row);
+  //   setShowDeleteConfirmation(true);
+  // };
 
   const handleDeleteConfirmation = async (confirmed) => {
     setShowDeleteConfirmation(false);
