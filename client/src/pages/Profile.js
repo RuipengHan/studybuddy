@@ -8,6 +8,7 @@ const ProfilePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('User');
   const [isEditMode, setIsEditMode] = useState(false);
+  
   const profileLinks = [
     { title: 'Home', href: '/' },
     // other links for the profile page
@@ -28,6 +29,7 @@ const ProfilePage = () => {
           Authorization: `${yourAuthToken}`, // Add your authentication token if needed
         },
         body: JSON.stringify({
+          avatar,
           gender,
           birthday,
           location,
@@ -40,8 +42,7 @@ const ProfilePage = () => {
           workExperience,
           courses,
           languages,
-          interests
-          // Add more fields as needed
+          interests,
         }),
       });
   
@@ -55,6 +56,7 @@ const ProfilePage = () => {
       console.error('Error updating profile:', error);
     }
   };
+  
   
 
   const [aboutMe, setAboutMe] = useState('');
@@ -75,6 +77,8 @@ const ProfilePage = () => {
   // New sections
   const [languages, setLanguages] = useState('');
   const [interests, setInterests] = useState('');
+  const [avatar, setAvatar] = useState(null); // Initialize with null or a default avatar URL
+
 
   const fetchUserProfile = async () => {
     try {
@@ -84,9 +88,9 @@ const ProfilePage = () => {
           'Authorization': localStorage.getItem('token'),
         },
       });
-
       if (response.ok) {
         const userData = await response.json();
+        console.log(userData);
         // Set state variables with user data
         setFullName(userData.firstName + ' ' + userData.lastName);
         setGender(userData.gender);
@@ -102,6 +106,7 @@ const ProfilePage = () => {
         setCourses(userData.courses);
         setSkills(userData.skills);
         setProjects(userData.projects);
+        setAvatar(userData.avatar);
 
         // Set other state variables as needed
       } else {
@@ -216,23 +221,30 @@ const ProfilePage = () => {
     setInterests(event.target.value);
   };
 
+
+
   return (
     <div className="flex h-screen bg-gray-100">
       <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={profileLinks} />
       <div className="flex-1 p-8 overflow-y-scroll">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
               <div
                 className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-xl text-gray-500"
               >
-                <span>A</span>
+                {avatar ? (
+                  <img src={avatar} alt="Avatar" className="w-full h-full rounded-full" />
+                ) : (
+                  <span>A</span>
+                )}
               </div>
               <div>
                 <h1 className="text-2xl font-bold">{firstName}</h1>
                 <p className="text-gray-500">Web Developer</p>
               </div>
             </div>
+
             <button
               className={`bg-blue-500 text-white px-4 py-2 rounded-md ${isEditMode ? 'hidden' : ''}`}
               onClick={handleToggleEditMode}
@@ -240,14 +252,22 @@ const ProfilePage = () => {
               Edit Profile
             </button>
             {isEditMode && (
+              <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setAvatar(URL.createObjectURL(e.target.files[0]))}
+              />
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded-md"
                 onClick={handleSaveChanges}
               >
                 Save Changes
               </button>
-            )}
+            </>
+          )}
           </div>
+          
 
           {/* About Me */}
           <div className="bg-white p-6 mb-6 shadow-md rounded-md">

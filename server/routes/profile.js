@@ -1,60 +1,59 @@
-// routes/profile.js
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../middleware/verifyToken')
+const verifyToken = require('../middleware/verifyToken');
+const multer = require('multer');
 const User = require('../models/User'); // Assuming you have a User model
 
+// Set up multer for file uploads
+const storage = multer.memoryStorage(); // Store files in memory as Buffer
+const upload = multer({ storage: storage });
 
+// Fetch profile
 router.get('/', verifyToken, async (req, res) => {
-    try {
-        const userId = req.user.id;
-        // console.log("Here!")
-        // Fetch the user from the database
-        const user = await User.findOne({ _id: userId });
-
-        // If the user doesn't exist, return an appropriate response
-        if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Extract the profile information from the user
-        const profile = {
-            gender: user.gender,
-            birthday: user.birthday,
-            location: user.location,
-            phoneNumber: user.phoneNumber,
-            email: user.email,
-            languages: user.languages,
-            interests: user.interests,
-            aboutMe: user.aboutMe,
-            education: user.education,
-            workExperience: user.workExperience,
-            courses: user.courses,
-            skills: user.skills,
-            projects: user.projects,
-            firstName: user.firstName,
-            lastName: user.lastName
-            // Add more fields as needed
-        };
-
-        return res.json(profile);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-router.post('/update', verifyToken, async (req, res) => {
-    try {
-    const userId = req.user.id; // Assuming you have authentication middleware that attaches the user to the request
-    const updatedProfile = req.body; // Assuming the updated profile data is sent in the request body
-    
-    // Fetch the user from the database
+  try {
+    const userId = req.user.id;
     const user = await User.findOne({ _id: userId });
 
-    // If the user doesn't exist, return an appropriate response
     if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const profile = {
+      gender: user.gender,
+      birthday: user.birthday,
+      location: user.location,
+      phoneNumber: user.phoneNumber,
+      email: user.email,
+      languages: user.languages,
+      interests: user.interests,
+      aboutMe: user.aboutMe,
+      education: user.education,
+      workExperience: user.workExperience,
+      courses: user.courses,
+      skills: user.skills,
+      projects: user.projects,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar ? user.avatar.toString('base64') : null, // Convert Buffer to base64 string
+    };
+
+    return res.json(profile);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Update profile
+router.post('/update', verifyToken, upload.single('avatar'), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const updatedProfile = req.body;
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
     // Update the user's profile fields with the new data
@@ -71,19 +70,20 @@ router.post('/update', verifyToken, async (req, res) => {
     user.courses = updatedProfile.courses || user.courses;
     user.skills = updatedProfile.skills || user.skills;
     user.projects = updatedProfile.projects || user.projects;
-    // Add more fields as needed
+    user.avatar = updatedProfile.avatar || user.avatar;
+    
+    if (req.file) {
+      // If a new file is uploaded, update the avatar field as Buffer
+      user.avatar = req.file.buffer;
+    }
 
-    // Save the updated user profile to the database
     await user.save();
 
     return res.json({ message: 'Profile updated successfully', profile: user });
-    } catch (error) {
+  } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
-    }
-    
+  }
 });
 
-
 module.exports = router;
-

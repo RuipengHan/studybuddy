@@ -38,7 +38,10 @@ const UserSchema = new mongoose.Schema({
     courses: String,
     skills: String,
     projects: String,
-    interests: String
+    interests: String,
+    avatar: {
+        type: String,
+    },
     // Add any other fields you might need
 }, {timestamps: true});
 
