@@ -71,7 +71,7 @@ const NewTask = ({ onTaskAdded }) => {
   const handleAddTask = async () => {
     const currentDate = new Date();
     task.creationDate = currentDate.toISOString();
-    console.log('task', task);
+
     try {
       // Perform validation or additional checks as needed before sending the request
       const response = await axios.post('http://localhost:4000/api/task', task, {
@@ -79,7 +79,7 @@ const NewTask = ({ onTaskAdded }) => {
           Authorization: `${localStorage.getItem('token')}`,
         },
       });
-      console.log('response', response);
+
       // Assuming the API returns the newly added task, you can update the UI accordingly
       if (response.data.status === 201) {
         onTaskAdded(response.data); // Notify the parent component about the new task

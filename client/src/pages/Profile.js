@@ -92,7 +92,6 @@ const ProfilePage = () => {
       });
       if (response.ok) {
         const userData = await response.json();
-        console.log(userData);
         // Set state variables with user data
         setFullName(userData.firstName + ' ' + userData.lastName);
         setGender(userData.gender);
