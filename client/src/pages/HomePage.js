@@ -16,7 +16,6 @@ const HomePage = () => {
     const homeLinks = [
         { title: "Home", href: "/" },
         { title: "New Task", href: "/new_task" },
-        { title: "My Calendar", href: "/calendar" },
         { title: "Profile", href: "/profile" },
         // other links for the homepage
       ];

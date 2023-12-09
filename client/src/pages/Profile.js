@@ -10,6 +10,8 @@ const ProfilePage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const profileLinks = [
     { title: 'Home', href: '/' },
+    { title: "New Task", href: "/new_task" },
+    { title: "Profile", href: "/profile" }
     // other links for the profile page
   ];
   const handleToggleEditMode = () => {
