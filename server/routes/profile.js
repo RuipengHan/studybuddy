@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
-const multer = require('multer');
 const User = require('../models/User'); // Assuming you have a User model
 
-// Set up multer for file uploads
-const storage = multer.memoryStorage(); // Store files in memory as Buffer
-const upload = multer({ storage: storage });
 
 // Fetch profile
 router.get('/', verifyToken, async (req, res) => {
@@ -47,7 +43,7 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // Update profile
-router.post('/update', verifyToken, upload.single('avatar'), async (req, res) => {
+router.post('/update', verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const updatedProfile = req.body;
