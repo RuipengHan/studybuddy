@@ -10,9 +10,11 @@ const upload = multer({ storage: storage });
 
 // Fetch profile
 router.get('/', verifyToken, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const user = await User.findOne({ _id: userId });
+    try {
+        const userId = req.user.id;
+        // console.log("Here!")
+        // Fetch the user from the database
+        const user = await User.findOne({ _id: userId });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });

@@ -16,7 +16,6 @@ const HomePage = () => {
     const homeLinks = [
         { title: "Home", href: "/" },
         { title: "New Task", href: "/new_task" },
-        { title: "My Calendar", href: "/calendar" },
         { title: "Profile", href: "/profile" },
         // other links for the homepage
       ];
@@ -66,7 +65,7 @@ const HomePage = () => {
                 {isLoggedIn ? (
                     <div>
                         <h1 className="text-3xl font-bold mb-4">Welcome to your Dashboard</h1>
-                        <p>This is a private area for logged-in users.</p>
+                        {/* <p>This is a private area for logged-in users.</p> */}
                         {/* Display user-specific content here */}
                         <CalendarView startDate={currentMonth.startDate} endDate={currentMonth.endDate} />
                     </div>

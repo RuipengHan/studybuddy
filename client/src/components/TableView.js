@@ -92,7 +92,7 @@ const TableView = () => {
 
   const handleDeleteConfirmation = async (confirmed) => {
     setShowDeleteConfirmation(false);
-    console.log(confirmed, selectedRow);
+    // console.log(confirmed, selectedRow);
     if (confirmed && selectedRow) {
       try {
         const response = await axios.delete(`http://localhost:4000/api/task/${selectedRow.original._id}`, {
@@ -100,7 +100,7 @@ const TableView = () => {
             Authorization: `${localStorage.getItem('token')}`,
           },
         });
-        console.log('response', response.status);
+        // console.log('response', response.status);
         if (response.status === 200) {
           setTasks((prevTasks) => prevTasks.filter((task) => task.title !== selectedRow.original.title));
         }

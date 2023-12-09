@@ -1,9 +1,18 @@
 // NavigationBar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
     const avatarLink = isLoggedIn ? '/profile' : '/login';
+    const location = useLocation(); // This hook gives you the current location object
+
+    const getLinkClassName = (path) => {
+        const isActive = location.pathname === path;
+        // Return the appropriate class names based on whether the link is active
+        return isActive ? 'text-blue-600 hover:text-blue-800 font-medium underline' : 'text-blue-600 hover:text-blue-800 font-medium';
+    };
 
     return (
         <div className="w-1/5 bg-white p-5 shadow-lg">
@@ -19,7 +28,7 @@ const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
                             <p className="mb-6">Welcome back, {firstName}!</p>
                             <div className="flex flex-col items-center space-y-3">
                                 {links.map((link, index) => (
-                                    <Link key={index} to={link.href} className="text-blue-600 hover:text-blue-800 font-medium">
+                                    <Link key={index} to={link.href} className={getLinkClassName(link.href)}>
                                         {link.title}
                                     </Link>
                                 ))}
