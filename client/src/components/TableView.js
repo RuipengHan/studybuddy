@@ -1,24 +1,25 @@
-// TableView.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTable } from 'react-table';
 import '../style/react-table.css';
-import SwitchModeButton from './Switchbutton'; // Adjust the import based on the actual file name
+import '../style/delete.css';
 
 const TableView = () => {
   const [tasks, setTasks] = useState([]);
   const [noTasksMessage, setNoTasksMessage] = useState('');
   const [view, setView] = useState('table');
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
-        try {
-            const response = await axios.get('http://localhost:4000/api/task', {
-              headers: {
-                Authorization: `${localStorage.getItem('token')}`,
-              },
-            });
-        // console.log("response", response)
+      try {
+        const response = await axios.get('http://localhost:4000/api/task', {
+          headers: {
+            Authorization: `${localStorage.getItem('token')}`,
+          },
+        });
+
         if (response.data.tasks.length === 0) {
           setNoTasksMessage('No tasks found.');
         } else {
@@ -38,6 +39,14 @@ const TableView = () => {
       {
         Header: 'Title',
         accessor: 'title',
+        Cell: ({ row }) => (
+          <div
+            onClick={() => handleRowClick(row)}
+            style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
+          >
+            {row.original.title}
+          </div>
+        ),
       },
       {
         Header: 'Description',
@@ -76,6 +85,31 @@ const TableView = () => {
     setView((prevView) => (prevView === 'table' ? 'calendar' : 'table'));
   };
 
+  const handleRowClick = (row) => {
+    setSelectedRow(row);
+    setShowDeleteConfirmation(true);
+  };
+
+  const handleDeleteConfirmation = async (confirmed) => {
+    setShowDeleteConfirmation(false);
+    console.log(confirmed, selectedRow);
+    if (confirmed && selectedRow) {
+      try {
+        const response = await axios.delete(`http://localhost:4000/api/task/${selectedRow.original._id}`, {
+          headers: {
+            Authorization: `${localStorage.getItem('token')}`,
+          },
+        });
+        console.log('response', response.status);
+        if (response.status === 200) {
+          setTasks((prevTasks) => prevTasks.filter((task) => task.title !== selectedRow.original.title));
+        }
+      } catch (error) {
+        console.error('Error deleting task', error);
+      }
+    }
+  };
+
   return (
     <div className="table-container">
       <table className="react-table" {...getTableProps()}>
@@ -83,7 +117,9 @@ const TableView = () => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()} style={{ textAlign: 'center' }}>{column.render('Header')}</th>
+                <th {...column.getHeaderProps()} style={{ textAlign: 'center' }}>
+                  {column.render('Header')}
+                </th>
               ))}
             </tr>
           ))}
@@ -101,6 +137,14 @@ const TableView = () => {
           })}
         </tbody>
       </table>
+
+      {showDeleteConfirmation && (
+      <div className="delete-confirmation-modal" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white', padding: '20px', border: '1px solid #ccc', zIndex: '1000' }}>
+        <p>Are you sure you want to delete this task?</p>
+          <button onClick={() => handleDeleteConfirmation(true)}>Yes</button>
+          <button onClick={() => handleDeleteConfirmation(false)}>No</button>
+        </div>
+      )}
     </div>
   );
 };

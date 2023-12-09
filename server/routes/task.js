@@ -41,21 +41,21 @@ module.exports = function(router) {
             res.status(500).send({ message: 'Error retrieving tasks', error: error.message });
         }
     })
-
-    router.delete('/:title', verifyToken, async (req, res) => {
+    
+    router.delete('/:taskId', verifyToken, async (req, res) => {
         try {
-          const { title } = req.params;
+          const { taskId } = req.params;
           const username = req.user.username;
       
-          // Check if the task with the given title exists for the logged-in user
-          const existingTask = await Task.findOne({ username, title });
+          // Check if the task with the given _id exists for the logged-in user
+          const existingTask = await Task.findOne({ username, _id: taskId });
       
           if (!existingTask) {
             return res.status(404).send({ message: 'Task not found for deletion' });
           }
       
           // Perform the deletion
-          await Task.deleteOne({ username, title });
+          await Task.deleteOne({ username, _id: taskId });
       
           res.status(200).send({ message: 'Task deleted successfully' });
         } catch (error) {

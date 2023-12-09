@@ -35,6 +35,7 @@ const NewTask = ({ onTaskAdded }) => {
             localStorage.removeItem('token'); // Token is invalid or expired
             localStorage.removeItem('firstName');
           }
+          
         } catch (error) {
           console.error('Error validating token:', error);
         }
