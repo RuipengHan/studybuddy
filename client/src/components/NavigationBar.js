@@ -10,8 +10,18 @@ const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
 
     const getLinkClassName = (path) => {
         const isActive = location.pathname === path;
-        // Return the appropriate class names based on whether the link is active
-        return isActive ? 'text-blue-600 hover:text-blue-800 font-medium underline' : 'text-blue-600 hover:text-blue-800 font-medium';
+        // Base classes for all links
+        let classNames = "text-blue-600 hover:text-blue-800 font-medium transition-all duration-300";
+    
+        // Add 'underline' for the active link and scaling effect on hover
+        if (isActive) {
+            classNames += " underline";
+        }
+    
+        // Add scaling on hover
+        classNames += " transform hover:scale-110"; // Scales up to 110% on hover
+    
+        return classNames;
     };
 
     return (
@@ -34,7 +44,7 @@ const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
                                 ))}
                                 <button
                                     onClick={handleLogout}
-                                    className="text-blue-600 hover:text-blue-800 font-medium"
+                                    className={getLinkClassName("no_underline")}
                                 >
                                     Logout
                                 </button>
@@ -42,8 +52,8 @@ const NavigationBar = ({ isLoggedIn, firstName, handleLogout, links }) => {
                         </>
                     ) : (
                         <div className="flex flex-col items-center space-y-4">
-                            <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium">Login</Link>
-                            <Link to="/register" className="text-blue-600 hover:text-blue-800 font-medium">Register</Link>
+                            <Link to="/login" className={getLinkClassName("no_underline")}>Login</Link>
+                            <Link to="/register" className={getLinkClassName("no_underline")}>Register</Link>
                         </div>
                     )}
                 </div>
