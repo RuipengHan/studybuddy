@@ -33,7 +33,7 @@ module.exports = function(router) {
                 };
             }
             const tasks = await Task.find(query);
-            
+
             res.status(200).send({ message: 'Tasks retrieved successfully', tasks: tasks });
         }
         catch(error){
@@ -41,6 +41,28 @@ module.exports = function(router) {
             res.status(500).send({ message: 'Error retrieving tasks', error: error.message });
         }
     })
+
+    router.delete('/:title', verifyToken, async (req, res) => {
+        try {
+          const { title } = req.params;
+          const username = req.user.username;
+      
+          // Check if the task with the given title exists for the logged-in user
+          const existingTask = await Task.findOne({ username, title });
+      
+          if (!existingTask) {
+            return res.status(404).send({ message: 'Task not found for deletion' });
+          }
+      
+          // Perform the deletion
+          await Task.deleteOne({ username, title });
+      
+          res.status(200).send({ message: 'Task deleted successfully' });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send({ message: 'Error deleting task', error: error.message });
+        }
+      });
     
     // get a list of tasks within a start and end date.
     router.get('/within_dates', verifyToken, async (req, res) => {
