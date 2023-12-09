@@ -8,7 +8,6 @@ const User = require('../models/User'); // Assuming you have a User model
 router.get('/', verifyToken, async (req, res) => {
     try {
         const userId = req.user.id;
-        // console.log("Here!")
         // Fetch the user from the database
         const user = await User.findOne({ _id: userId });
 

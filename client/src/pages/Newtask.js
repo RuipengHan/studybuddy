@@ -17,7 +17,7 @@ const NewTask = ({ onTaskAdded }) => {
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem('token');
-      console.log('token', token)
+      // console.log('token', token)
       if (token) {
         try {
           const response = await fetch('http://localhost:4000/api/auth/validateToken', {

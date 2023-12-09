@@ -18,7 +18,6 @@ const CalendarView = ({ startDate, endDate }) => {
   const navigate = useNavigate();
   const handleSelectEvent = (event) => {
     // Navigate to the task's detailed view page
-    console.log("Event:" + event.id);
     navigate(`/task/${event.id}`);
   };
 
