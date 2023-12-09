@@ -18,7 +18,6 @@ const ProfilePage = () => {
   const handleSaveChanges = async () => {
     // Implement logic to save changes to the backend or perform any necessary actions
     setIsEditMode(false);
-  
     try {
       const yourAuthToken = localStorage.getItem('token'); // Replace with your actual authentication token
   
@@ -26,7 +25,7 @@ const ProfilePage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${yourAuthToken}`, // Add your authentication token if needed
+          Authorization: `${yourAuthToken}`, // Add your authentication token if needed
         },
         body: JSON.stringify({
           gender,
@@ -76,6 +75,44 @@ const ProfilePage = () => {
   // New sections
   const [languages, setLanguages] = useState('');
   const [interests, setInterests] = useState('');
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': localStorage.getItem('token'),
+        },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        // Set state variables with user data
+        setFullName(userData.firstName + ' ' + userData.lastName);
+        setGender(userData.gender);
+        setBirthday(userData.birthday);
+        setLocation(userData.location);
+        setPhoneNumber(userData.phoneNumber);
+        setEmail(userData.email);
+        setLanguages(userData.languages);
+        setInterests(userData.interests);
+        setAboutMe(userData.aboutMe);
+        setEducation(userData.education);
+        setWorkExperience(userData.workExperience);
+        setCourses(userData.courses);
+        setSkills(userData.skills);
+        setProjects(userData.projects);
+
+        // Set other state variables as needed
+      } else {
+        // Handle errors
+        console.error('Failed to fetch user profile:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem('token');
@@ -113,42 +150,7 @@ const ProfilePage = () => {
     // Fetch user profile when the component mounts
     fetchUserProfile();
   }, []); // Empty dependency array to run it only once
-  const fetchUserProfile = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/profile', {
-        method: 'GET',
-        headers: {
-          'Authorization': localStorage.getItem('token'),
-        },
-      });
 
-      if (response.ok) {
-        const userData = await response.json();
-        // Set state variables with user data
-        setFullName(userData.firstName + ' ' + userData.lastName);
-        setGender(userData.gender);
-        setBirthday(userData.birthday);
-        setLocation(userData.location);
-        setPhoneNumber(userData.phoneNumber);
-        setEmail(userData.email);
-        setLanguages(userData.languages);
-        setInterests(userData.interests);
-        setAboutMe(userData.aboutMe);
-        setEducation(userData.education);
-        setWorkExperience(userData.workExperience);
-        setCourses(userData.courses);
-        setSkills(userData.skills);
-        setProjects(userData.projects);
-
-        // Set other state variables as needed
-      } else {
-        // Handle errors
-        console.error('Failed to fetch user profile:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  };
 
 
   const handleLogout = () => {
