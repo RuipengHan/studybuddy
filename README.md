@@ -54,7 +54,7 @@ To run the server:
 
     ```bash
     cd server
-    node server.js
+    npm start
     ```
 
 To run the frontend react (in a separate terminal):
@@ -64,16 +64,9 @@ To run the frontend react (in a separate terminal):
     npm start
     ```
 
-Or, simply run the following at the root level:
-
-    ```bash
-    npm run start-frontend # Starts the server
-    npm run start-server   # Starts the frontend
-    ```
-
 ## Contributing
 
-TBD
+Ruipeng Han - Developed the user-authentication interfaces, calendar views, user APIs, and more.
 
 ## License
 
