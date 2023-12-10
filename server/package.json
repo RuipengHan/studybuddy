@@ -1,13 +1,11 @@
 {
-  "name": "studybuddy",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start-server": "node server/server.js",
-    "start-frontend": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && npm run build && cd ../server && npm run build"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
