@@ -8,11 +8,11 @@
     ],
     "rewrites": [
         { "source": "/(.*)", "destination": "/" }
-      ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/"
-        }
     ]
+    // "routes": [
+    //     {
+    //         "src": "/(.*)",
+    //         "dest": "/"
+    //     }
+    // ]
 }
