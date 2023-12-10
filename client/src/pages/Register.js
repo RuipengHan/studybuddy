@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+const setting = require('../config/config');
 
 const Register = () => {
     const [firstName, setFirstName] = useState('');
@@ -13,7 +14,7 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/register', { // Replace with your API URL
+            const response = await fetch(`${setting.base_url}/api/auth/register`, { // Replace with your API URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

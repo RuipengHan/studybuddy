@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+const setting = require('../config/config');
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const ProfilePage = () => {
     try {
       const yourAuthToken = localStorage.getItem('token'); // Replace with your actual authentication token
   
-      const response = await fetch('http://localhost:4000/api/profile/update', {
+      const response = await fetch(`${setting.base_url}/api/profile/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const ProfilePage = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/profile', {
+      const response = await fetch(`${setting.base_url}/api/profile`, {
         method: 'GET',
         headers: {
           'Authorization': localStorage.getItem('token'),
@@ -127,7 +128,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+          const response = await fetch(`${setting.base_url}/api/auth/validateToken`, {
             method: 'GET',
             headers: {
               'Authorization': token,

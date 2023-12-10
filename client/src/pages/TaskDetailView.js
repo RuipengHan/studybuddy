@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import NavigationBar from '../components/NavigationBar';
 import { useNavigate } from 'react-router-dom';
+const setting = require('../config/config');
 
 const TaskDetailView = () => {
   const { taskId } = useParams();
@@ -36,7 +37,7 @@ const TaskDetailView = () => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+                const response = await fetch(`${setting.base_url}/api/auth/validateToken`, {
                     method: 'GET',
                     headers: {
                         'Authorization': token
@@ -64,7 +65,7 @@ const TaskDetailView = () => {
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/task/${taskId}`, {
+        const response = await axios.get(`${setting.base_url}/api/task/${taskId}`, {
           headers: {
             Authorization: `${localStorage.getItem('token')}`
           }
@@ -95,7 +96,7 @@ const TaskDetailView = () => {
 
   const handleDeleteTask = async() =>{
     try {
-      const response = await axios.delete(`http://localhost:4000/api/task/${taskId}`,  {
+      const response = await axios.delete(`${setting.base_url}/api/task/${taskId}`,  {
         headers: {
           Authorization: `${localStorage.getItem('token')}`
         }
@@ -117,7 +118,7 @@ const TaskDetailView = () => {
 
   const handleUpdateTask = async () => {
     try {
-      const response = await axios.put(`http://localhost:4000/api/task/${taskId}`, task, {
+      const response = await axios.put(`${setting.base_url}/api/task/${taskId}`, task, {
         headers: {
           Authorization: `${localStorage.getItem('token')}`
         }

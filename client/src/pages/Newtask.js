@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
-
+const setting = require('../config/config');
 const NewTask = ({ onTaskAdded }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,7 +22,7 @@ const NewTask = ({ onTaskAdded }) => {
       // console.log('token', token)
       if (token) {
         try {
-          const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+          const response = await fetch(`${setting.base_url}/api/auth/validateToken`, {
             method: 'GET',
             headers: {
               'Authorization': token,
@@ -73,7 +73,7 @@ const NewTask = ({ onTaskAdded }) => {
 
     try {
       // Perform validation or additional checks as needed before sending the request
-      const response = await axios.post('http://localhost:4000/api/task', task, {
+      const response = await axios.post(`${setting.base_url}/api/task`, task, {
         headers: {
           Authorization: `${localStorage.getItem('token')}`,
         },
@@ -103,7 +103,7 @@ const NewTask = ({ onTaskAdded }) => {
       console.log("token", token)
       if (token) {
         try {
-          const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+          const response = await fetch(`${setting.base_url}/api/auth/validateToken`, {
             method: 'GET',
             headers: {
               'Authorization': token,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+const setting = require('../config/config');
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -11,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:4000/api/auth/login', {
+            const response = await fetch(`${setting.base_url}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

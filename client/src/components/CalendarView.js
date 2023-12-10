@@ -10,6 +10,7 @@ import TableView from './TableView';
 import SwitchModeButton from './Switchbutton'; // Adjust the import based on the actual file name
 
 const localizer = momentLocalizer(moment);
+const setting = require('../config/config');
 
 const CalendarView = ({ startDate, endDate }) => {
   const [tasks, setTasks] = useState([]);
@@ -24,7 +25,7 @@ const CalendarView = ({ startDate, endDate }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/task', {
+        const response = await axios.get(`${setting.base_url}/api/task`, {
           headers: {
             Authorization: `${localStorage.getItem('token')}`,
           },

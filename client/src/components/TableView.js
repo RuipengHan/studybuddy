@@ -4,7 +4,7 @@ import { useTable } from 'react-table';
 import '../style/react-table.css';
 import '../style/delete.css';
 import { useNavigate } from 'react-router-dom';
-
+const setting = require('../config/config');
 
 const TableView = () => {
   const [tasks, setTasks] = useState([]);
@@ -21,7 +21,7 @@ const TableView = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/task', {
+        const response = await axios.get(`${setting.base_url}/api/task`, {
           headers: {
             Authorization: `${localStorage.getItem('token')}`,
           },
@@ -102,7 +102,7 @@ const TableView = () => {
     // console.log(confirmed, selectedRow);
     if (confirmed && selectedRow) {
       try {
-        const response = await axios.delete(`http://localhost:4000/api/task/${selectedRow.original._id}`, {
+        const response = await axios.delete(`${setting.base_url}/api/task/${selectedRow.original._id}`, {
           headers: {
             Authorization: `${localStorage.getItem('token')}`,
           },

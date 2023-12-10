@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
 import CalendarView from '../components/CalendarView'; 
 import moment from 'moment';
+const setting = require('../config/config');
 const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [firstName, setFirstName] = useState('User');
@@ -26,7 +27,7 @@ const HomePage = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('http://localhost:4000/api/auth/validateToken', {
+                    const response = await fetch(`${setting.base_url}/api/auth/validateToken`, {
                         method: 'GET',
                         headers: {
                             'Authorization': token
