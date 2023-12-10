@@ -4,7 +4,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     secrets = require('./config/config'),
     bodyParser = require('body-parser');
-
+const path = require('path');
 const cors = require('cors');
 
 
@@ -37,9 +37,18 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // Use routes as a module (see index.js)
-require('./routes')(app, router);
+require('./routes')(app, express.Router());
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build'))); // Adjust the path as necessary
+
+// Handles any requests that don't match the ones above
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html')); // Adjust the path as necessary
+});
 
 // Start the server
+var port = secrets.server.port || 4000;
 app.listen(port, () => {
     console.log('Server running on port ' + port);
 });
