@@ -26,3 +26,4 @@ Thumbs.db
 # Other unnecessary files
 npm-debug.log
 yarn-error.log
+server/config/keys.json

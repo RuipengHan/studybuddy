@@ -6,13 +6,23 @@ var express = require('express'),
     bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
+const multer = require('multer')
+const uploadImage = require('./helpers/gcp')
+
+const multerMid = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+    },
+  })
+// connect to gcp
 
 
 // Create our Express application
 var app = express();
 // app.use(cors());
 app.use(cors({ origin: true }));
-
+app.use(multerMid.single('file'))
 // Use environment defined port or 4000
 var port = secrets.server.port || 4000;
 
@@ -34,6 +44,21 @@ app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+app.post('/uploads', async (req, res, next) => {
+    try {
+      const myFile = req.file
+      const imageUrl = await uploadImage(myFile)
+      res
+        .status(200)
+        .json({
+          message: "Upload was successful",
+          data: imageUrl
+        })
+    } catch (error) {
+      next(error)
+    }
+  })
 app.use(bodyParser.json());
 
 // Use routes as a module (see index.js)
