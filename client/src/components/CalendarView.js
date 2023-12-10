@@ -59,7 +59,7 @@ const CalendarView = ({ startDate, endDate }) => {
   return (
     <div className="calendar-view-container">
       {noTasksMessage && <div className="alert alert-warning">{noTasksMessage}</div>}
-      <div className="view-switcher">
+      <div className="view-switcher text-black">
         <SwitchModeButton onClick={handleViewChange} active={view === 'calendar'} />
       </div>
       <div className="content-container">
