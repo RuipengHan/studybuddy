@@ -1,7 +1,10 @@
 // ProfilePage.js
 import React, { useState, useEffect} from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -209,8 +212,10 @@ const ProfilePage = () => {
     setLocation(event.target.value);
   };
 
-  const handleEditBirthday = (event) => {
-    setBirthday(event.target.value);
+  const handleEditBirthday = (date) => {
+    // Format the date to remove the time component
+    const formattedDate = date.toISOString().split('T')[0];
+    setBirthday(formattedDate);
   };
 
   // New sections handlers
@@ -375,32 +380,59 @@ const ProfilePage = () => {
               </div>
               {/* Gender */}
               <div className="p-2 rounded-md">
-                <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
-                  Gender
-                </label>
-                <input
-                  type="text"
-                  id="gender"
-                  className={`mt-1 p-2 border rounded-md w-full`}
-                  value={gender}
-                  onChange={handleEditGender}
-                  readOnly={!isEditMode}
-                />
-              </div>
-              {/* Birthday */}
-              <div className="p-2 rounded-md">
-                <label htmlFor="birthday" className="block text-sm font-medium text-gray-700">
-                  Birthday
-                </label>
-                <input
-                  type="text"
-                  id="birthday"
-                  className={`mt-1 p-2 border rounded-md w-full`}
-                  value={birthday}
-                  onChange={handleEditBirthday}
-                  readOnly={!isEditMode}
-                />
-              </div>
+            <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+              Gender
+            </label>
+            {isEditMode ? (
+              <select
+                id="gender"
+                className={`mt-1 p-2 border rounded-md w-full`}
+                value={gender}
+                onChange={handleEditGender}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+              </select>
+            ) : (
+              <input
+                type="text"
+                id="gender"
+                className={`mt-1 p-2 border rounded-md w-full`}
+                value={gender}
+                readOnly
+              />
+            )}
+          </div>
+             {/* Birthday */}
+          <div className="p-2 rounded-md">
+            <label htmlFor="birthday" className="block text-sm font-medium text-gray-700">
+              Birthday
+            </label>
+            {isEditMode ? (
+              <DatePicker
+                id="birthday"
+                className={`mt-1 p-2 border rounded-md w-full`}
+                selected={birthday ? new Date(birthday) : null}
+                onChange={(date) => handleEditBirthday(date)}
+                dateFormat="yyyy-MM-dd"
+                showYearDropdown
+                showMonthDropdown
+                placeholderText="Select your birthday"
+              />
+            ) : (
+              <input
+                type="text"
+                id="birthday"
+                className={`mt-1 p-2 border rounded-md w-full`}
+                value={birthday}
+                readOnly
+              />
+            )}
+          </div>
+
+
               {/* Location */}
               <div className="p-2 rounded-md">
                 <label htmlFor="location" className="block text-sm font-medium text-gray-700">
