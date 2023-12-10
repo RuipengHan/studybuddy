@@ -149,55 +149,123 @@ const TaskDetailView = () => {
     return [year, month, day].join('-');
   };
 
+  // return (
+  //   <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
+  //     <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={homeLinks} />
+    
+  //     <div className="flex-1 flex flex-col justify-center items-center">
+  //       <div className="max-w-md w-full bg-white rounded-lg overflow-hidden shadow-lg p-6">
+  //         <input
+  //           type="text"
+  //           name="title"
+  //           value={task.title}
+  //           onChange={handleInputChange}
+  //           className="font-bold text-2xl mb-2 text-blue-800 w-full"
+  //         />
+  //         <textarea
+  //           name="description"
+  //           value={task.description}
+  //           onChange={handleInputChange}
+  //           className="text-gray-700 text-base mb-4 w-full"
+  //         />
+  //         <input
+  //           type="date"
+  //           name="dueDate"
+  //           value={formatDateToYYYYMMDD(task.dueDate)}
+  //           onChange={handleInputChange}
+  //           className="text-gray-600 text-sm mb-4 w-full"
+  //         />
+  //         {task.tags.map((tag, index) => (
+  //           <input
+  //             key={index}
+  //             type="text"
+  //             value={tag}
+  //             onChange={(e) => handleTagChange(index, e.target.value)}
+  //             className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2 w-full"
+  //           />
+  //         ))}
+
+  //         <button
+  //           onClick={handleUpdateTask}
+  //           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
+  //         >
+  //           Update Task
+  //         </button>
+
+  //         <button
+  //           onClick={handleDeleteTask}
+  //           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
+  //         >
+  //           Delete Task
+  //         </button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
       <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={homeLinks} />
     
       <div className="flex-1 flex flex-col justify-center items-center">
         <div className="max-w-md w-full bg-white rounded-lg overflow-hidden shadow-lg p-6">
+          <label htmlFor="title" className="block text-blue-800 font-bold mb-1">Title</label>
           <input
+            id="title"
             type="text"
             name="title"
             value={task.title}
             onChange={handleInputChange}
-            className="font-bold text-2xl mb-2 text-blue-800 w-full"
+            className="font-bold text-2xl mb-4 text-blue-800 w-full border border-gray-300 rounded p-2"
           />
+
+          <label htmlFor="description" className="block text-blue-800 font-bold mb-1">Description</label>
           <textarea
+            id="description"
             name="description"
             value={task.description}
             onChange={handleInputChange}
-            className="text-gray-700 text-base mb-4 w-full"
+            className="text-gray-700 text-base mb-4 w-full border border-gray-300 rounded p-2"
           />
+
+          <label htmlFor="dueDate" className="block text-blue-800 font-bold mb-1">Due Date</label>
           <input
+            id="dueDate"
             type="date"
             name="dueDate"
             value={formatDateToYYYYMMDD(task.dueDate)}
             onChange={handleInputChange}
-            className="text-gray-600 text-sm mb-4 w-full"
+            className="text-gray-600 text-sm mb-4 w-full border border-gray-300 rounded p-2"
           />
+
           {task.tags.map((tag, index) => (
-            <input
-              key={index}
-              type="text"
-              value={tag}
-              onChange={(e) => handleTagChange(index, e.target.value)}
-              className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2 w-full"
-            />
+            <div key={index} className="mb-2">
+              <label htmlFor={`tag-${index}`} className="block text-blue-800 font-bold mb-1">Tag {index + 1}</label>
+              <input
+                id={`tag-${index}`}
+                type="text"
+                value={tag}
+                onChange={(e) => handleTagChange(index, e.target.value)}
+                className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 w-full"
+              />
+            </div>
           ))}
 
-          <button
-            onClick={handleUpdateTask}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
-          >
-            Update Task
-          </button>
+          <div className="flex justify-between mt-6">
+            <button
+              onClick={handleUpdateTask}
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Update Task
+            </button>
 
-          <button
-            onClick={handleDeleteTask}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
-          >
-            Delete Task
-          </button>
+            <button
+              onClick={handleDeleteTask}
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+            >
+              Delete Task
+            </button>
+          </div>
         </div>
       </div>
     </div>
