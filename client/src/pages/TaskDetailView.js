@@ -149,60 +149,6 @@ const TaskDetailView = () => {
     return [year, month, day].join('-');
   };
 
-  // return (
-  //   <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
-  //     <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={homeLinks} />
-    
-  //     <div className="flex-1 flex flex-col justify-center items-center">
-  //       <div className="max-w-md w-full bg-white rounded-lg overflow-hidden shadow-lg p-6">
-  //         <input
-  //           type="text"
-  //           name="title"
-  //           value={task.title}
-  //           onChange={handleInputChange}
-  //           className="font-bold text-2xl mb-2 text-blue-800 w-full"
-  //         />
-  //         <textarea
-  //           name="description"
-  //           value={task.description}
-  //           onChange={handleInputChange}
-  //           className="text-gray-700 text-base mb-4 w-full"
-  //         />
-  //         <input
-  //           type="date"
-  //           name="dueDate"
-  //           value={formatDateToYYYYMMDD(task.dueDate)}
-  //           onChange={handleInputChange}
-  //           className="text-gray-600 text-sm mb-4 w-full"
-  //         />
-  //         {task.tags.map((tag, index) => (
-  //           <input
-  //             key={index}
-  //             type="text"
-  //             value={tag}
-  //             onChange={(e) => handleTagChange(index, e.target.value)}
-  //             className="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 mr-2 mb-2 w-full"
-  //           />
-  //         ))}
-
-  //         <button
-  //           onClick={handleUpdateTask}
-  //           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
-  //         >
-  //           Update Task
-  //         </button>
-
-  //         <button
-  //           onClick={handleDeleteTask}
-  //           className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4"
-  //         >
-  //           Delete Task
-  //         </button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
       <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={homeLinks} />
