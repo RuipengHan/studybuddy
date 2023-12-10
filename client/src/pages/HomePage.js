@@ -64,18 +64,20 @@ const HomePage = () => {
                 {/* Add additional navigation items here */}
             <div className="w-4/5 p-12 text-white">
                 {isLoggedIn ? (
-                    <div>
-                        <h1 className="text-3xl font-bold mb-4">Welcome to your Dashboard</h1>
-                        {/* <p>This is a private area for logged-in users.</p> */}
-                        {/* Display user-specific content here */}
+                <div>
+                    <h1 className="text-3xl font-bold mb-4">Welcome to your Dashboard</h1>
+                    {/* Improved styling for user-specific content */}
+                    <div className="bg-white rounded-lg p-4 shadow-md">
+                        <p className="text-xl font-semibold text-gray-800 mb-4">Your Upcoming Events:</p>
                         <CalendarView startDate={currentMonth.startDate} endDate={currentMonth.endDate} />
                     </div>
+                </div>
                 ) : (
                     <div>
                         <h1 className="text-3xl font-bold mb-4">Welcome to StudyBuddy</h1>
-                        <p>Your personal study time organizer. Login to create a new planner or a note!</p>
+                        <p className="text-lg text-gray-300 mb-4">Your personal study time organizer. Login to create a new planner or a note!</p>
                         {/* Public content */}
-                    </div>
+                  </div>
                 )}
             </div>
         </div>
