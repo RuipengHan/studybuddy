@@ -119,7 +119,7 @@ const TableView = () => {
 
   return (
     <div className="table-container">
-      <table className="react-table" {...getTableProps()}>
+      <table className="react-table text-black" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

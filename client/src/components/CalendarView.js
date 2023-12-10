@@ -62,7 +62,7 @@ const CalendarView = ({ startDate, endDate }) => {
       <div className="view-switcher text-black">
         <SwitchModeButton onClick={handleViewChange} active={view === 'calendar'} />
       </div>
-      <div className="content-container">
+      <div className="content-container text-black">
         {view === 'calendar' ? (
           <Calendar localizer={localizer} events={tasks} startAccessor="start" endAccessor="end" style={{ height: 500 }} onSelectEvent={handleSelectEvent}/>
         ) : (
