@@ -47,7 +47,6 @@ const NewTask = ({ onTaskAdded }) => {
   }, []);
 
   const [task, setTask] = useState({
-    username: '', // You may get the username from the logged-in user
     title: '',
     description: '',
     attachments: [], // Array of objects (fileName, filePath, fileType, fileSize)
@@ -84,7 +83,6 @@ const NewTask = ({ onTaskAdded }) => {
       if (response.data.status === 201) {
         onTaskAdded(response.data); // Notify the parent component about the new task
         setTask({
-          username: '',
           title: '',
           description: '',
           attachments: [],
@@ -137,17 +135,7 @@ const NewTask = ({ onTaskAdded }) => {
           <div className="new-task-container p-8 bg-white rounded shadow-md w-96 mb-4">
             <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
             <form>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={task.username}
-                  onChange={handleInputChange}
-                  className="w-full border rounded-md py-2 px-3"
-                  style={{ color: 'black' }}
-                />
-              </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">Title:</label>
                 <input
