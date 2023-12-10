@@ -12,7 +12,7 @@ const NewTask = ({ onTaskAdded }) => {
   const profileLinks = [
     { title: 'Home', href: '/' },
     { title: "New Task", href: "/new_task" },
-    { title: "Profile", href: "/profile" },9
+    { title: "Profile", href: "/profile" },
     // other links for the profile page
   ];
 
