@@ -130,7 +130,7 @@ const NewTask = ({ onTaskAdded }) => {
     // <div className="flex h-screen bg-gray-100">
     <div className="flex h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
       <NavigationBar isLoggedIn={isLoggedIn} firstName={firstName} handleLogout={handleLogout} links={profileLinks} />
-      <div className="w-4/5 p-12 text-white">
+      <div className="w-4/5 p-12">
         <div className="flex flex-col items-center justify-center w-full">
           <div className="new-task-container p-8 bg-white rounded shadow-md w-96 mb-4">
             <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
