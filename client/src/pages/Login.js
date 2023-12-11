@@ -85,9 +85,9 @@ const Login = () => {
                                 onChange={e => setPassword(e.target.value)}
                                 required
                             />
-                            <p className="mt-2 text-sm text-blue-500 text-right cursor-pointer">
+                            {/* <p className="mt-2 text-sm text-blue-500 text-right cursor-pointer">
                                 Forgot Password?
-                            </p>
+                            </p> */}
                         </div>
                         <div className="flex items-center justify-between">
                             <button
