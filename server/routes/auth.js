@@ -28,7 +28,7 @@ module.exports = function(router) {
 
             // After the user is successfully created
             const token = jwt.sign(
-                { id: newUser._id, firstName: newUser.firstName },
+                { id: newUser._id, firstName: newUser.firstName, username: newUser.username },
                 secrets.jwt_secrets,
                 { expiresIn: '1h' } // Token expiration time
             );
